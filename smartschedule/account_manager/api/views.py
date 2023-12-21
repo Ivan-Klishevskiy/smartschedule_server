@@ -10,6 +10,8 @@ from rest_framework import status
 from .serializers import UserProfileSerializer, RegisterSerializer, HobbySerializer
 from account_manager.models import UserProfile, Hobby
 
+from drf_yasg.utils import swagger_auto_schema
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -34,7 +36,7 @@ def getRoutes(request):
 
     return Response(routes)
 
-
+@swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getUserProfile(request):
@@ -47,6 +49,7 @@ def getUserProfile(request):
     return Response(serializer.data)
 
 
+@swagger_auto_schema(method='post', request_body=RegisterSerializer)
 @api_view(['POST'])
 @permission_classes([])
 def registerUser(request):
@@ -59,6 +62,7 @@ def registerUser(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listHobbies(request):
@@ -67,7 +71,8 @@ def listHobbies(request):
     return Response(serializer.data)
 
 
-@api_view(['PATCH']) 
+@swagger_auto_schema(method='patch', request_body=UserProfileSerializer)
+@api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     try:
@@ -76,7 +81,8 @@ def updateUserProfile(request):
         return Response({'message': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
     # partial=True позволяет обновлять частично
-    serializer = UserProfileSerializer(user_profile, data=request.data, partial=True) 
+    serializer = UserProfileSerializer(
+        user_profile, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
