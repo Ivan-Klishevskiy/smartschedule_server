@@ -8,6 +8,7 @@ class Hobby(models.Model):
 
     def __str__(self):
         return self.name
+    
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=True)
@@ -19,3 +20,4 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
