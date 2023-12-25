@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-mlg-$8()m^h8!@rp9yo$zd)2o*gdakzem4o=%+b7u4m&ww=g7$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -138,10 +138,10 @@ WSGI_APPLICATION = "smartschedule.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'smartschedule_db',
-        'USER': 'ivan',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
