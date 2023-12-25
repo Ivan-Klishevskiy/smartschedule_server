@@ -8,9 +8,11 @@ from account_manager.api.serializers import UserProfileSerializer
 
 from account_manager.api.serializers import RegisterSerializer
 
+
 class HobbySerializerTestCase(APITestCase):
     def setUp(self):
-        self.hobby_data = {'name': 'Painting', 'image_url': 'http://example.com/painting.jpg'}
+        self.hobby_data = {'name': 'Painting',
+                           'image_url': 'http://example.com/painting.jpg'}
         self.hobby = Hobby.objects.create(**self.hobby_data)
 
     def test_hobby_serializer(self):
@@ -20,17 +22,22 @@ class HobbySerializerTestCase(APITestCase):
 
 class UserProfileSerializerTestCase(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
-        self.profile_data = {'age': 25, 'location': 'City', 'marital_status': 'Single', 'has_children': False}
-        self.profile = UserProfile.objects.create(user=self.user, **self.profile_data)
+        self.user = User.objects.create_user(
+            username='testuser', email='test@example.com', password='testpassword')
+        self.profile_data = {'age': 25, 'location': 'City',
+                             'marital_status': 'Single', 'has_children': False}
+        self.profile = UserProfile.objects.create(
+            user=self.user, **self.profile_data)
 
     def test_user_profile_serializer(self):
         serializer = UserProfileSerializer(self.profile)
         data = serializer.data
         self.assertEqual(data['age'], self.profile_data['age'])
         self.assertEqual(data['location'], self.profile_data['location'])
-        self.assertEqual(data['marital_status'], self.profile_data['marital_status'])
-        self.assertEqual(data['has_children'], self.profile_data['has_children'])
+        self.assertEqual(data['marital_status'],
+                         self.profile_data['marital_status'])
+        self.assertEqual(data['has_children'],
+                         self.profile_data['has_children'])
 
 
 class RegisterSerializerTestCase(APITestCase):
@@ -51,5 +58,3 @@ class RegisterSerializerTestCase(APITestCase):
         }
         serializer = RegisterSerializer(data=invalid_serializer_data)
         self.assertFalse(serializer.is_valid())
-
-

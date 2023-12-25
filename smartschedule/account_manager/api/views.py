@@ -12,6 +12,9 @@ from account_manager.models import UserProfile, Hobby
 
 from drf_yasg.utils import swagger_auto_schema
 
+import geonamescache
+from Levenshtein import distance
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -35,6 +38,20 @@ def getRoutes(request):
     ]
 
     return Response(routes)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def citySearch(request):
+    query = request.query_params.get('q', '')
+    gc = geonamescache.GeonamesCache()
+    cities = gc.search_cities(
+        query, case_sensitive=False, contains_search=True)
+    city_distances = [(city['name'], distance(query.lower(), city['name'].lower())) for city in cities]
+    sorted_cities = sorted(city_distances, key=lambda x: x[1])
+    city_names = [city[0] for city in sorted_cities[:10]]
+    return Response(city_names)
+
 
 @swagger_auto_schema(method='get')
 @api_view(['GET'])
