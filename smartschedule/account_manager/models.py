@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from event_manager.models import Event
 
 
 class Hobby(models.Model):
@@ -17,6 +18,8 @@ class UserProfile(models.Model):
     hobbies = models.ManyToManyField(Hobby, blank=True)
     marital_status = models.CharField(max_length=100, blank=True)
     has_children = models.BooleanField(default=False)
+
+    events = models.ManyToManyField(Event, related_name='profiles')
 
     def __str__(self):
         return self.user.username

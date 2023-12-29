@@ -97,7 +97,6 @@ def updateUserProfile(request):
     except UserProfile.DoesNotExist:
         return Response({'message': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    # partial=True позволяет обновлять частично
     serializer = UserProfileSerializer(
         user_profile, data=request.data, partial=True)
     if serializer.is_valid():
