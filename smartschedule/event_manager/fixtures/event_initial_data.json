@@ -1,0 +1,236 @@
+[
+    {
+        "model": "event_manager.Event",
+        "pk": 1,
+        "fields": {
+            "title": "Park Concert",
+            "image_url": "http://example.com/concert.jpg",
+            "start_date": "2023-12-01T20:00:00",
+            "end_date": "2023-12-01T23:00:00",
+            "location": "Central Park",
+            "source_url": "http://example.com/events/concert",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 2,
+        "fields": {
+            "title": "Art Exhibition",
+            "image_url": "http://example.com/art.jpg",
+            "start_date": "2023-12-05T10:00:00",
+            "end_date": "2023-12-05T18:00:00",
+            "location": "Art Gallery",
+            "source_url": "http://example.com/events/artshow",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 3,
+        "fields": {
+            "title": "Space Lecture",
+            "image_url": "http://example.com/space.jpg",
+            "start_date": "2023-12-10T15:00:00",
+            "end_date": "2023-12-10T17:00:00",
+            "location": "Local University",
+            "source_url": "http://example.com/events/spacelecture",
+            "is_active": false
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 4,
+        "fields": {
+            "title": "Food Festival",
+            "image_url": "http://example.com/foodfestival.jpg",
+            "start_date": "2024-01-15T11:00:00",
+            "end_date": "2024-01-15T20:00:00",
+            "location": "City Market",
+            "source_url": "http://example.com/events/foodfestival",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 5,
+        "fields": {
+            "title": "Charity Run",
+            "image_url": "http://example.com/charityrun.jpg",
+            "start_date": "2024-02-20T08:00:00",
+            "end_date": "2024-02-20T12:00:00",
+            "location": "Riverside Park",
+            "source_url": "http://example.com/events/charityrun",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 6,
+        "fields": {
+            "title": "Tech Conference",
+            "image_url": "http://example.com/techconference.jpg",
+            "start_date": "2024-03-05T09:00:00",
+            "end_date": "2024-03-06T18:00:00",
+            "location": "Convention Center",
+            "source_url": "http://example.com/events/techconference",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 7,
+        "fields": {
+            "title": "Live Jazz Night",
+            "image_url": "http://example.com/jazznight.jpg",
+            "start_date": "2024-04-10T19:00:00",
+            "end_date": "2024-04-10T23:00:00",
+            "location": "Downtown Cafe",
+            "source_url": "http://example.com/events/jazznight",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 8,
+        "fields": {
+            "title": "Book Fair",
+            "image_url": "http://example.com/bookfair.jpg",
+            "start_date": "2024-05-25T10:00:00",
+            "end_date": "2024-05-27T17:00:00",
+            "location": "Library Hall",
+            "source_url": "http://example.com/events/bookfair",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 9,
+        "fields": {
+            "title": "International Film Festival",
+            "image_url": "http://example.com/filmfestival.jpg",
+            "start_date": "2024-06-11T12:00:00",
+            "end_date": "2024-06-20T23:00:00",
+            "location": "Cinema Hall",
+            "source_url": "http://example.com/events/filmfestival",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 10,
+        "fields": {
+            "title": "Marathon City",
+            "image_url": "http://example.com/marathon.jpg",
+            "start_date": "2024-07-05T06:00:00",
+            "end_date": "2024-07-05T14:00:00",
+            "location": "Main Street",
+            "source_url": "http://example.com/events/marathon",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 11,
+        "fields": {
+            "title": "Rock Music Concert",
+            "image_url": "http://example.com/rockconcert.jpg",
+            "start_date": "2024-08-15T18:00:00",
+            "end_date": "2024-08-15T23:00:00",
+            "location": "Open Air Venue",
+            "source_url": "http://example.com/events/rockconcert",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 12,
+        "fields": {
+            "title": "Annual Science Expo",
+            "image_url": "http://example.com/scienceexpo.jpg",
+            "start_date": "2024-09-20T09:00:00",
+            "end_date": "2024-09-22T17:00:00",
+            "location": "Exhibition Center",
+            "source_url": "http://example.com/events/scienceexpo",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 13,
+        "fields": {
+            "title": "Autumn Art Workshop",
+            "image_url": "http://example.com/artworkshop.jpg",
+            "start_date": "2024-10-03T10:00:00",
+            "end_date": "2024-10-03T16:00:00",
+            "location": "Local Art Studio",
+            "source_url": "http://example.com/events/artworkshop",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 14,
+        "fields": {
+            "title": "Halloween Costume Party",
+            "image_url": "http://example.com/halloweenparty.jpg",
+            "start_date": "2024-10-31T20:00:00",
+            "end_date": "2024-10-31T23:59:00",
+            "location": "Night Club",
+            "source_url": "http://example.com/events/halloweenparty",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 15,
+        "fields": {
+            "title": "Winter Fashion Show",
+            "image_url": "http://example.com/fashionshow.jpg",
+            "start_date": "2024-11-15T19:00:00",
+            "end_date": "2024-11-15T21:00:00",
+            "location": "Fashion Arena",
+            "source_url": "http://example.com/events/fashionshow",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 16,
+        "fields": {
+            "title": "Christmas Market",
+            "image_url": "http://example.com/christmasmarket.jpg",
+            "start_date": "2024-12-01T10:00:00",
+            "end_date": "2024-12-25T20:00:00",
+            "location": "Town Square",
+            "source_url": "http://example.com/events/christmasmarket",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 17,
+        "fields": {
+            "title": "New Year's Eve Gala",
+            "image_url": "http://example.com/newyearsgala.jpg",
+            "start_date": "2024-12-31T20:00:00",
+            "end_date": "2025-01-01T02:00:00",
+            "location": "Hotel Ballroom",
+            "source_url": "http://example.com/events/newyearsgala",
+            "is_active": true
+        }
+    },
+    {
+        "model": "event_manager.Event",
+        "pk": 18,
+        "fields": {
+            "title": "Spring Flower Festival",
+            "image_url": "http://example.com/flowerfestival.jpg",
+            "start_date": "2025-04-10T09:00:00",
+            "end_date": "2025-04-12T18:00:00",
+            "location": "Botanical Garden",
+            "source_url": "http://example.com/events/flowerfestival",
+            "is_active": true
+        }
+    }
+]
