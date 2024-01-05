@@ -14,4 +14,4 @@ class EventSerializer(serializers.ModelSerializer):
             'end_date',
             'location',
             'source_url'
-            ]
+        ]

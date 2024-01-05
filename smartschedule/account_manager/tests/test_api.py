@@ -80,13 +80,10 @@ class AccountManagerTestCase(APITestCase):
             HTTP_AUTHORIZATION='Bearer ' + self.get_token_for_user())
         url = reverse('city_search')
         response = self.client.get(url, {'q': 'Tel Aviv'})
-        print(response.data)
         self.assertIn('Tel Aviv', response.data)
 
         response = self.client.get(url, {'q': 'Minsk'})
-        print(response.data)
         self.assertIn('Minsk', response.data)
 
         response = self.client.get(url, {'q': 'New York'})
-        print(response.data)
         self.assertIn('New York City', response.data)
