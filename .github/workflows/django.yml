@@ -22,7 +22,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Change to smartchedule directory
-      run: cd smartchedule
+      run: cd smartschedule
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
