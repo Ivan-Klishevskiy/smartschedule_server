@@ -23,18 +23,56 @@ class AccountManagerTestCase(APITestCase):
         response = self.client.post(url, data)
         return response.data['access']
 
-    def test_get_events_by_location(self):
+    def test_get_events_by_fields(self):
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer ' + self.get_token_for_user())
-        url = reverse('events_by_location')
+        url = reverse('events_by_fields')
         data = {
-            'q': 'Local University',
+            'title':'Tech Conference',
+            'location': 'Convention Center',
+
         }
         response = self.client.get(url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         self.assertIsInstance(response.data, list)
+
+        self.assertTrue(
+            any(item['title'] ==
+                'Tech Conference' for item in response.data),
+            "Tech Conference not found in response"
+        )
+
         self.assertTrue(
             any(item['location'] ==
-                'Local University' for item in response.data),
-            "Local University not found in response"
+                'Convention Center' for item in response.data),
+            "Convention Center not found in response"
         )
+
+    def test_get_events_by_date(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer ' + self.get_token_for_user())
+        url = reverse('events_by_fields')
+        data = {
+            'start_date':'2024-03-05T09:00:00Z',
+            "end_date": "2024-03-06T18:00:00Z",
+
+        }
+        response = self.client.get(url, data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertIsInstance(response.data, list)
+
+        self.assertTrue(
+            any(item['start_date'] ==
+                '2024-03-05T09:00:00Z' for item in response.data),
+            "Convention Center not found in response"
+        )
+
+        self.assertTrue(
+            any(item['end_date'] ==
+                '2024-03-06T18:00:00Z' for item in response.data),
+            "Convention Center not found in response"
+        )
+
+        
