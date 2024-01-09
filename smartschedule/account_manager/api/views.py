@@ -14,6 +14,9 @@ from drf_yasg.utils import swagger_auto_schema
 
 import geonamescache
 from Levenshtein import distance
+import logging
+
+logger = logging.getLogger('api_log')
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -22,22 +25,13 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         token['username'] = user.username
-
+        logger.info("Successfully", extra={
+                    'response_code': status.HTTP_200_OK})
         return token
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
-
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        '/api/token',
-        '/api/token/refresh',
-    ]
-
-    return Response(routes)
 
 
 @api_view(['GET'])
@@ -47,9 +41,12 @@ def citySearch(request):
     gc = geonamescache.GeonamesCache()
     cities = gc.search_cities(
         query, case_sensitive=False, contains_search=True)
-    city_distances = [(city['name'], distance(query.lower(), city['name'].lower())) for city in cities]
+    city_distances = [(city['name'], distance(
+        query.lower(), city['name'].lower())) for city in cities]
     sorted_cities = sorted(city_distances, key=lambda x: x[1])
     city_names = [city[0] for city in sorted_cities[:10]]
+    logger.info("Successfully", extra={
+                'user': request.user, 'response_code': status.HTTP_200_OK})
     return Response(city_names)
 
 
@@ -63,6 +60,8 @@ def getUserProfile(request):
         return Response({'message': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = UserProfileSerializer(user_profile)
+    logger.info("Successfully", extra={
+                'user': request.user, 'response_code': status.HTTP_200_OK})
     return Response(serializer.data)
 
 
@@ -74,8 +73,12 @@ def registerUser(request):
 
     if serializer.is_valid():
         serializer.save()
+        logger.info("Successfully registered", extra={
+            'user': request.user, 'response_code': status.HTTP_200_OK})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
+        logger.info("Unregistered", extra={
+                    'response_code': status.HTTP_400_BAD_REQUEST})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -85,6 +88,8 @@ def registerUser(request):
 def listHobbies(request):
     hobbies = Hobby.objects.all()
     serializer = HobbySerializer(hobbies, many=True)
+    logger.info("Successfully", extra={
+                'user': request.user, 'response_code': status.HTTP_200_OK})
     return Response(serializer.data)
 
 
@@ -95,11 +100,18 @@ def updateUserProfile(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
+        logger.info('UserProfile not found', extra={
+                'user': request.user, 'response_code': status.HTTP_404_NOT_FOUND})
         return Response({'message': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = UserProfileSerializer(
         user_profile, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
+        logger.info("Successfully", extra={
+                'user': request.user, 'response_code': status.HTTP_200_OK})
         return Response(serializer.data)
+    
+    logger.info(serializer.errors, extra={
+                'user': request.user, 'response_code': status.HTTP_400_BAD_REQUEST})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
