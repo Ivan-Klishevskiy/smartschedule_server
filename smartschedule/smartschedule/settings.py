@@ -10,12 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
+from pythonjsonlogger.jsonlogger import JsonFormatter
+
+from .logging_formatters import CustomJsonFormatter
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-from datetime import timedelta
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -26,7 +29,7 @@ SECRET_KEY = "django-insecure-mlg-$8()m^h8!@rp9yo$zd)2o*gdakzem4o=%+b7u4m&ww=g7$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -38,7 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
+
     "account_manager.apps.AccountManagerConfig",
     "event_manager.apps.EventManagerConfig",
 
@@ -51,7 +54,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        
+
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
@@ -137,7 +140,6 @@ WSGI_APPLICATION = "smartschedule.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -166,7 +168,6 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-
 
 
 # Password validation
@@ -211,5 +212,47 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-CORS_ALLOWED_ALL_ORIGINS=True
+CORS_ALLOWED_ALL_ORIGINS = True
 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'json_formatter': {
+            '()': CustomJsonFormatter
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'json_formatter',
+        },
+        'file_api': {
+            'class': 'logging.FileHandler',
+            'formatter': 'json_formatter',
+            'filename': 'api_log.log',
+        },
+        'file_func': {
+            'class': 'logging.FileHandler',
+            'formatter': 'json_formatter',
+            'filename': 'func_log.log',
+        },
+    },
+
+    'loggers': {
+        'api_log': {
+            'handlers': ['console', 'file_api'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'func_log': {
+            'handlers': ['console', 'file_func'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+
+    },
+}
