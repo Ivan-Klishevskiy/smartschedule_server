@@ -80,7 +80,7 @@ def getEventByField(request):
     except ValueError as e:
         logger.error(f"Invalid date format: {str(e)}", extra={
                      'user': request.user.username, 'response_code': status.HTTP_400_BAD_REQUEST})
-        return Response("Invalid date format. Please use the ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ).",
+        return Response("Invalid date format. Please use the ISO 8601 format (YYYY-MM-DDTHH:MM).",
                         status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         logger.error(f"Error: {str(e)}", extra={

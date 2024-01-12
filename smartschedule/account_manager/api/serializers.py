@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 from django.forms import ValidationError
 from rest_framework import serializers
@@ -20,21 +21,40 @@ class UserProfileSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    birthday_date = serializers.DateField(
+        allow_null=True,
+        required=False,
+        format='%Y-%m-%d',
+        input_formats=['%Y-%m-%d', 'iso-8601']
+    )
+
     class Meta:
         model = UserProfile
-        fields = ['user', 'age', 'location', 'hobbies',
+        fields = ['user', 'birthday_date', 'location', 'hobbies',
                   'marital_status', 'has_children']
 
-    def update(self, instance, validated_data):
+    def validate_birth_date(self, value):
+            if value is not None:
+                try:
+                    datetime.strptime(str(value), '%Y-%m-%d')
+                except ValueError:
+                    raise serializers.ValidationError(
+                        "birthday_date must be in YYYY-MM-DD format")
 
+            return value
+
+    def update(self, instance, validated_data):
         hobbies = validated_data.pop('hobbies', None)
+        
         if hobbies is not None:
             instance.hobbies.set(hobbies)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
         instance.save()
         return instance
+
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -86,7 +106,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                 "The password can only contain Latin letters, digits, and underscores.")
 
         return value
-
 
     class Meta:
         model = User

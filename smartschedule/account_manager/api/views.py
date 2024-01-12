@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
+from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
@@ -93,25 +94,37 @@ def listHobbies(request):
     return Response(serializer.data)
 
 
-@swagger_auto_schema(method='patch', request_body=UserProfileSerializer)
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     try:
         user_profile = UserProfile.objects.get(user=request.user)
+        serializer = UserProfileSerializer(user_profile, data=request.data, partial=True)
+        
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            logger.info("Successfully updated user profile", extra={
+                    'user': request.user.username, 'response_code': status.HTTP_200_OK})
+            return Response(serializer.data)
+
     except UserProfile.DoesNotExist:
-        logger.info('UserProfile not found', extra={
-                'user': request.user, 'response_code': status.HTTP_404_NOT_FOUND})
+        logger.error('UserProfile not found', extra={
+                'user': request.user.username, 'response_code': status.HTTP_404_NOT_FOUND})
         return Response({'message': 'UserProfile not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = UserProfileSerializer(
-        user_profile, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        logger.info("Successfully", extra={
-                'user': request.user, 'response_code': status.HTTP_200_OK})
-        return Response(serializer.data)
+    except ValidationError as e:
+        # ValidationError will be raised by is_valid() if raise_exception=True
+        logger.error(f"Validation error: {e}", extra={
+                'user': request.user.username, 'response_code': status.HTTP_400_BAD_REQUEST})
+        return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    except Exception as e:
+        # Log other exceptions that might occur
+        logger.error(f"Unexpected error: {str(e)}", extra={
+                'user': request.user.username, 'response_code': status.HTTP_500_INTERNAL_SERVER_ERROR})
+        return Response({'detail': 'An unexpected error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     
-    logger.info(serializer.errors, extra={
-                'user': request.user, 'response_code': status.HTTP_400_BAD_REQUEST})
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    

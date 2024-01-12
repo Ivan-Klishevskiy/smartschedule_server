@@ -13,7 +13,7 @@ class Hobby(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=True)
-    age = models.IntegerField(null=True, blank=True)
+    birthday_date = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=100, blank=True)
     hobbies = models.ManyToManyField(Hobby, blank=True)
     marital_status = models.CharField(max_length=100, blank=True)
