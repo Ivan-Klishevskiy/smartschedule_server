@@ -1,0 +1,122 @@
+[
+    {
+        "model": "account_manager.hobby",
+        "pk": 1,
+        "fields": {
+            "name": "Hiking",
+            "image_url": "https://example.com/hiking.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 2,
+        "fields": {
+            "name": "Cooking",
+            "image_url": "https://example.com/cooking.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 3,
+        "fields": {
+            "name": "Reading",
+            "image_url": "https://example.com/reading.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 4,
+        "fields": {
+            "name": "Painting",
+            "image_url": "https://example.com/painting.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 5,
+        "fields": {
+            "name": "Swimming",
+            "image_url": "https://example.com/swimming.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 6,
+        "fields": {
+            "name": "Gardening",
+            "image_url": "https://example.com/gardening.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 7,
+        "fields": {
+            "name": "Photography",
+            "image_url": "https://example.com/photography.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 8,
+        "fields": {
+            "name": "Yoga",
+            "image_url": "https://example.com/yoga.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 9,
+        "fields": {
+            "name": "Traveling",
+            "image_url": "https://example.com/traveling.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 10,
+        "fields": {
+            "name": "Dancing",
+            "image_url": "https://example.com/dancing.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 11,
+        "fields": {
+            "name": "Fishing",
+            "image_url": "https://example.com/fishing.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 12,
+        "fields": {
+            "name": "Video Games",
+            "image_url": "https://example.com/videogames.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 13,
+        "fields": {
+            "name": "Cycling",
+            "image_url": "https://example.com/cycling.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 14,
+        "fields": {
+            "name": "Skiing",
+            "image_url": "https://example.com/skiing.jpg"
+        }
+    },
+    {
+        "model": "account_manager.hobby",
+        "pk": 15,
+        "fields": {
+            "name": "Music",
+            "image_url": "https://example.com/music.jpg"
+        }
+    }
+]
