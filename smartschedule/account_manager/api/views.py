@@ -14,7 +14,9 @@ from account_manager.models import UserProfile, Hobby
 from drf_yasg.utils import swagger_auto_schema
 
 import geonamescache
-from Levenshtein import distance
+import country_converter as coco
+import re
+
 import logging
 
 logger = logging.getLogger('api_log')
@@ -37,18 +39,23 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def citySearch(request):
+def searchLocation(request):
     query = request.query_params.get('q', '')
     gc = geonamescache.GeonamesCache()
     cities = gc.search_cities(
         query, case_sensitive=False, contains_search=True)
-    city_distances = [(city['name'], distance(
-        query.lower(), city['name'].lower())) for city in cities]
-    sorted_cities = sorted(city_distances, key=lambda x: x[1])
-    city_names = [city[0] for city in sorted_cities[:10]]
+    
+    locations = list()
+    pattern = re.compile(f"^{re.escape(query)}", re.IGNORECASE | re.ASCII)
+    cities = [city for city in cities if pattern.match(city['name'])]
+    for city in cities[:10]:
+        country_name = coco.convert(names=city['countrycode'], to='name_short')
+        locations.append(f"{country_name}, {city['name']}")
+
+
     logger.info("Successfully", extra={
                 'user': request.user, 'response_code': status.HTTP_200_OK})
-    return Response(city_names)
+    return Response(locations)
 
 
 @swagger_auto_schema(method='get')
