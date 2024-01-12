@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import MyTokenObtainPairView, listHobbies, updateUserProfile, citySearch
+from .views import MyTokenObtainPairView, listHobbies, updateUserProfile, searchLocation
 
 from rest_framework_simplejwt.views import (
 
@@ -19,5 +19,5 @@ urlpatterns = [
 
     path('hobbies/', listHobbies, name='list_hobbies'),
 
-    path('city-search/', citySearch, name='city_search'),
+    path('location-search/', searchLocation, name='location_search'),
 ]
