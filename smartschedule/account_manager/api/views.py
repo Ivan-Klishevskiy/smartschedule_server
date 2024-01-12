@@ -36,7 +36,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-
+@swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def searchLocation(request):
