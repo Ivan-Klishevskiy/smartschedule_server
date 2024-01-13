@@ -7,6 +7,7 @@ services:
     volumes:
       - ./smartschedule:/smartschedule
     environment:
+      - DJANGO_RUNNING_IN_DOCKER=1
       - DB_HOST=database
       - DB_NAME=dbname
       - DB_USER=dbuser

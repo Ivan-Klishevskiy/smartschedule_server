@@ -141,33 +141,23 @@ WSGI_APPLICATION = "smartschedule.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'smartschedule_db',
-#         'USER': 'ivan',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
+if os.environ.get('DJANGO_RUNNING_IN_DOCKER') == '1':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'HOST': os.environ.get('DB_HOST'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASS'),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -248,6 +238,9 @@ LOGGING = {
             'formatter': 'json_formatter',
             'filename': 'func_log.log',
         },
+        'sql_queries':{
+            'class': 'logging.StreamHandler',
+        },
     },
 
     'loggers': {
@@ -260,6 +253,10 @@ LOGGING = {
             'handlers': ['console', 'file_func'],
             'level': 'INFO',
             'propagate': True,
+        },
+        'sql_logger':{
+            'handler': ['sql_queries'],
+            'level':'DEBUG',
         }
 
     },
