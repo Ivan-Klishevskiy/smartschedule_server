@@ -238,8 +238,9 @@ LOGGING = {
             'formatter': 'json_formatter',
             'filename': 'func_log.log',
         },
-        'sql_queries':{
+        'sql_queries': {
             'class': 'logging.StreamHandler',
+            'formatter': 'json_formatter',
         },
     },
 
@@ -254,10 +255,10 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'sql_logger':{
-            'handler': ['sql_queries'],
-            'level':'DEBUG',
-        }
-
+        'django.db.backends': {
+            'handlers': ['sql_queries'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
