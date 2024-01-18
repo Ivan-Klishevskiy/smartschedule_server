@@ -10,3 +10,4 @@ app = Celery('smartschedule')
 app.config_from_object('django.conf:settings')
 app.conf.broker_url = settings.CELERY_BROKER_URL
 app.autodiscover_tasks()
+
