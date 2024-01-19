@@ -255,11 +255,11 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'django.db.backends': {
-            'handlers': ['sql_queries'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
+        # 'django.db.backends': {
+        #     'handlers': ['sql_queries'],
+        #     'level': 'DEBUG',
+        #     'propagate': False,
+        # },
     },
 }
 
