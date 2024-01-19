@@ -255,10 +255,13 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'django.db.backends': {
-            'handlers': ['sql_queries'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
+        # 'django.db.backends': {
+        #     'handlers': ['sql_queries'],
+        #     'level': 'DEBUG',
+        #     'propagate': False,
+        # },
     },
 }
+
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'

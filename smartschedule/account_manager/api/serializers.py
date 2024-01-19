@@ -6,6 +6,9 @@ from account_manager.models import UserProfile, Hobby
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 
+from event_manager.api.serializers import EventSerializer
+from event_manager.models import Event
+
 
 class HobbySerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,10 +31,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
         input_formats=['%Y-%m-%d', 'iso-8601']
     )
 
+    events = serializers.PrimaryKeyRelatedField(
+        many=True, 
+        queryset=Event.objects.all(), 
+        required=False
+    )
+
     class Meta:
         model = UserProfile
         fields = ['user', 'birthday_date', 'location', 'hobbies',
-                  'marital_status', 'has_children']
+                  'marital_status', 'has_children','events']
 
     def validate_birth_date(self, value):
             if value is not None:
@@ -45,9 +54,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         hobbies = validated_data.pop('hobbies', None)
+        events = validated_data.pop('events', None)
         
         if hobbies is not None:
             instance.hobbies.set(hobbies)
+
+        if events is not None:
+            instance.events.set(events)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
