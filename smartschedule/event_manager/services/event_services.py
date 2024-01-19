@@ -8,13 +8,6 @@ from django.db.models import Q
 
 logger = logging.getLogger('api_log')
 
-def get_user_profile(user):
-    try:
-        user_profile = UserProfile.objects.get(user=user)
-        return user_profile
-    except UserProfile.DoesNotExist:
-        return None
-
 def filter_events(title, location, start_date, end_date, is_active):
     query = Q()
     try:
