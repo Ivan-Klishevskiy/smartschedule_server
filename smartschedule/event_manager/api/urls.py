@@ -1,8 +1,8 @@
-from django.urls import path
+from django.urls import path, re_path
 from . import views
 
 
 urlpatterns = [
-    path('by-fields', view=views.getEventByField, name='events_by_fields'),
-    path('by-user', view=views.getEventsByUser, name='events_by_user'),
+    re_path(r'^by-fields/?$', view=views.getEventByField, name='events_by_fields'),
+    re_path(r'^by-user/?$', view=views.getEventsByUser, name='events_by_user'),
 ]

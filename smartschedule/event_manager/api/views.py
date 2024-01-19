@@ -10,12 +10,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 @swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getEventsByUser(request):
     events = event_services.get_events_by_user(request.user)
-    
+
     if events is None:
         logger.error('UserProfile not found', extra={
             'response_code': status.HTTP_404_NOT_FOUND})
@@ -26,11 +27,13 @@ def getEventsByUser(request):
                 'user': request.user.username, 'response_code': status.HTTP_200_OK})
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getEventByField(request):
     title_str = request.GET.get('title', '')
+    description_str = request.GET.get('description', '')
     location_str = request.GET.get('location', '')
     start_date_str = request.GET.get('start_date', '')
     end_date_str = request.GET.get('end_date', '')
@@ -38,7 +41,7 @@ def getEventByField(request):
 
     try:
         events = event_services.filter_events(
-            title_str, location_str, start_date_str, end_date_str, is_active_str
+            title_str, description_str, location_str, start_date_str, end_date_str, is_active_str
         )
         serializer = EventSerializer(events, many=True)
         logger.info("Events successfully filtered", extra={

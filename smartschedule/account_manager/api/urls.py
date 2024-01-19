@@ -1,23 +1,26 @@
-from django.urls import path
+from django.urls import path, re_path
+
 from . import views
 from .views import MyTokenObtainPairView, listHobbies, updateUserProfile, searchLocation
 
-from rest_framework_simplejwt.views import (
+from rest_framework_simplejwt.views import (TokenRefreshView,)
 
-    TokenRefreshView,
-)
 
 urlpatterns = [
+    re_path(r'^user_profile/?$', views.getUserProfile, name='user_profile'),
 
-    path('user_profile/', views.getUserProfile, name='user_profile'),
+    re_path(r'^token/?$', MyTokenObtainPairView.as_view(),
+            name='token_obtain_pair'),
 
+    re_path(r'^token/refresh/?$', TokenRefreshView.as_view(),
+            name='token_refresh'),
 
-    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('register/', views.registerUser, name='register'),
-    path('user-profile/update/', updateUserProfile, name='update_user_profile'),
+    re_path(r'^register/?$', views.registerUser, name='register'),
 
-    path('hobbies/', listHobbies, name='list_hobbies'),
+    re_path(r'^user-profile/update/?$', updateUserProfile,
+            name='update_user_profile'),
 
-    path('location-search/', searchLocation, name='location_search'),
+    re_path(r'^hobbies/?$', listHobbies, name='list_hobbies'),
+
+    re_path(r'^location-search/?$', searchLocation, name='location_search'),
 ]
