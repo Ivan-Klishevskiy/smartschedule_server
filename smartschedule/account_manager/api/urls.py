@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 
 from . import views
-from .views import MyTokenObtainPairView, listHobbies, updateUserProfile, searchLocation
+from .views import MyTokenObtainPairView, listHobbies, updateUserProfile, searchLocation, scraper
 
 from rest_framework_simplejwt.views import (TokenRefreshView,)
 
@@ -23,4 +23,7 @@ urlpatterns = [
     re_path(r'^hobbies/?$', listHobbies, name='list_hobbies'),
 
     re_path(r'^location-search/?$', searchLocation, name='location_search'),
+
+    re_path(r'^scraper/?$', scraper, name='scraper'),
+
 ]

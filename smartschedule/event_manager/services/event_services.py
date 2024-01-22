@@ -35,7 +35,6 @@ def filter_events(title, description, location, start_date, end_date, is_active)
 def get_events_by_user(user):
     try:
         user_profile = UserProfile.objects.get(user=user)
-        events = user_profile.events.all()
-        return events
+        return user_profile.events.all()
     except UserProfile.DoesNotExist:
-        return None
+        return Event.objects.none()

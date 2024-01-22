@@ -1,7 +1,8 @@
 import logging
+import time
 from typing import Optional, List
 
-from selenium import webdriver
+
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -10,11 +11,14 @@ from selenium.webdriver.remote.remote_connection import LOGGER
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
 import os
 
 logger = logging.getLogger('func_log')
+
 
 class SeleniumManager:
     """
@@ -32,10 +36,13 @@ class SeleniumManager:
             os.environ['WDM_LOG_LEVEL'] = '0'
             LOGGER.setLevel(logging.WARNING)
             options = Options()
-            options.add_argument('--headless')
-            options.add_argument("--lang=en")  # Set browser language to English
-            options.add_experimental_option("excludeSwitches", ["enable-logging"])
-            driver = webdriver.Chrome(options=options)
+            # options.add_argument('--headless')
+            # Set browser language to English
+            options.add_argument("--lang=en")
+            options.add_experimental_option(
+                "excludeSwitches", ["enable-logging"])
+            driver = webdriver.Chrome(service=ChromeService(
+                ChromeDriverManager().install()), options=options)
             return driver
         except Exception as e:
             logger.error(f"Failed to setup WebDriver: {e}")
@@ -147,7 +154,7 @@ class SeleniumManager:
     @staticmethod
     def find_elements_by_class_name(element, name: str):
         return SeleniumManager.find_elements(element, By.CLASS_NAME, name)
-
+    
     @staticmethod
     def get_attribute(element, attribute: str):
         if element:
@@ -200,7 +207,8 @@ class SeleniumManager:
     def wait_element_nonzero_size_by_id(driver, element_id: str, timeout: int = 10):
         try:
             locator = (By.ID, element_id)
-            element = WebDriverWait(driver, timeout).until(EC.visibility_of_element_located(locator))
+            element = WebDriverWait(driver, timeout).until(
+                EC.visibility_of_element_located(locator))
 
             def nonzero_size(driver):
                 size = driver.find_element(*locator).size
@@ -210,9 +218,11 @@ class SeleniumManager:
 
             return element
         except TimeoutException:
-            logger.error(f"Element with ID '{element_id}' did not have nonzero size within the specified timeout.")
+            logger.error(
+                f"Element with ID '{element_id}' did not have nonzero size within the specified timeout.")
         except Exception as e:
-            logger.error(f"Failed to wait for element with ID '{element_id}': {e}")
+            logger.error(
+                f"Failed to wait for element with ID '{element_id}': {e}")
 
         return None
 
@@ -240,3 +250,11 @@ class SeleniumManager:
     def wait_elements_by_tag_name(element, tag_name: str, timeout=10):
         locator = (By.TAG_NAME, tag_name)
         return SeleniumManager._wait_for_elements(element, locator, timeout)
+    
+    @staticmethod
+    def scroll_page(Driver, CountScroll):
+        scroll_pause_time = 2
+
+        for _ in range(CountScroll):
+            SeleniumManager.execute_script(Driver, "window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(scroll_pause_time)
