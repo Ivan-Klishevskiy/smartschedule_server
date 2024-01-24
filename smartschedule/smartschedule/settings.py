@@ -266,3 +266,21 @@ LOGGING = {
 
 
 CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+
+if os.environ.get('DJANGO_RUNNING_IN_DOCKER') == '1':
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://redis:6379/1',
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
