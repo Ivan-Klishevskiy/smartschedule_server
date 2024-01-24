@@ -8,11 +8,14 @@ from django.db.models import Q
 
 logger = logging.getLogger('api_log')
 
-def filter_events(title, location, start_date, end_date, is_active):
+
+def filter_events(title, description, location, start_date, end_date, is_active):
     query = Q()
     try:
         if title:
             query &= Q(title__icontains=title)
+        if description:
+            query &= Q(description__icontains=description)
         if location:
             query &= Q(location__icontains=location)
         if start_date:
@@ -27,12 +30,11 @@ def filter_events(title, location, start_date, end_date, is_active):
         return events
     except Exception as e:
         raise
-    
+
 
 def get_events_by_user(user):
     try:
         user_profile = UserProfile.objects.get(user=user)
-        events = user_profile.events.all()
-        return events
+        return user_profile.events.all()
     except UserProfile.DoesNotExist:
-        return None
+        return Event.objects.none()

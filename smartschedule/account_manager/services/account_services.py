@@ -7,8 +7,7 @@ import re
 
 def get_user_profile(user):
     try:
-        user_profile = UserProfile.objects.get(user=user)
-        return user_profile
+        return UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         return None
     
