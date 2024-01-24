@@ -12,8 +12,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 import os
 
@@ -36,13 +35,12 @@ class SeleniumManager:
             os.environ['WDM_LOG_LEVEL'] = '0'
             LOGGER.setLevel(logging.WARNING)
             options = Options()
-            # options.add_argument('--headless')
+            options.add_argument('--headless')
             # Set browser language to English
-            options.add_argument("--lang=en")
+            # options.add_argument("--lang=en")
             options.add_experimental_option(
                 "excludeSwitches", ["enable-logging"])
-            driver = webdriver.Chrome(service=ChromeService(
-                ChromeDriverManager().install()), options=options)
+            driver = webdriver.Remote("http://selenium:4444/wd/hub", DesiredCapabilities.FIREFOX)
             return driver
         except Exception as e:
             logger.error(f"Failed to setup WebDriver: {e}")
