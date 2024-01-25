@@ -52,5 +52,8 @@ Once the containers are up, the application should be accessible through your we
 
 This setup process with Docker and Docker Compose ensures that the application environment is consistent and ready to use.
 
+## Related Projects
+For a complete experience of Smart Schedule Server, check out our frontend project as well:
 
+   Smart Schedule Client: https://github.com/MarcusKordunski/smartschedule_client.git. This repository contains the frontend code of our application, built to interact seamlessly with the Smart Schedule Server. It provides a user-friendly interface for managing schedules and accessing AI-powered recommendations.
 
