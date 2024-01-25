@@ -22,6 +22,16 @@ Our project integrates various technologies, each serving a specific purpose:
  - JSON Logger: Provides structured logging for better analysis.
  - Sentry: Offers real-time error tracking and fixing.
 
+## Setting up Environment Variables
+
+In this project, we use a `.env` file to store environment variables such as secret keys, passwords, and other confidential data. Before running the project, make sure you have a `.env` file in the project's root directory.
+
+If the `.env` file is missing, you can create it manually and add the necessary environment variables like this:
+```
+DSN=YOUR_DSN_KEY
+
+```
+
 ## Installation and Setup with Docker
 To ensure a smooth and consistent setup across different environments, our project can be easily set up using Docker and Docker Compose. Here are the steps to get it running:
 ### Prerequisites

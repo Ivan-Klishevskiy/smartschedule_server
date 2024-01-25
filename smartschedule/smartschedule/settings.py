@@ -20,6 +20,11 @@ from .logging_formatters import CustomJsonFormatter
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load env var
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -289,7 +294,7 @@ else:
 import sentry_sdk
 
 sentry_sdk.init(
-    dsn="https://abdc257c131df7754aa54d41240bfd8d@o4506627973316608.ingest.sentry.io/4506627976658944",
+    dsn=os.environ.get('DSN'),
     # Set traces_sample_rate to 1.0 to capture 100%
     # of transactions for performance monitoring.
     traces_sample_rate=1.0,
