@@ -1,17 +1,34 @@
 #!/bin/bash
 
-# Starting Redis
+cleanup() {
+    echo "Stopping Django Development Server..."
+    kill %4  # Stop Django
+
+    echo "Stopping Flower..."
+    kill %3  # Stop Flower
+
+    echo "Stopping Celery Worker..."
+    kill %2  # Stop Celery Worker
+
+    echo "Stopping Redis..."
+    kill %1  # Stop Redis
+
+    exit 0  # Exit the script
+}
+
+# Set a trap for the SIGINT signal (Ctrl+C)
+trap 'cleanup' SIGINT
+
 echo "Starting Redis..."
 redis-server &
 
-# Starting Celery Worker
 echo "Starting Celery Worker..."
 celery -A celery_app.app worker --loglevel=info &
 
-# Starting Flower for Celery monitoring
 echo "Starting Flower..."
 celery -A celery_app.app flower &
 
-# Starting Django Development Server
 echo "Starting Django Development Server..."
 python manage.py runserver
+
+wait
