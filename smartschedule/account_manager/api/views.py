@@ -43,7 +43,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def searchLocation(request):
+def searchLocation(request):        
     query = request.query_params.get('q', '')
 
     cache_key = f'locations_{query}'
