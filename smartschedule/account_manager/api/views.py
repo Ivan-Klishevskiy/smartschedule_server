@@ -88,7 +88,7 @@ def registerUser(request):
     if serializer.is_valid():
         serializer.save()
         logger.info("Successfully registered", extra={
-            'user': request.user, 'response_code': status.HTTP_200_OK})
+            'user': request.user, 'response_code': status.HTTP_201_CREATED})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         logger.info("Unregistered", extra={
