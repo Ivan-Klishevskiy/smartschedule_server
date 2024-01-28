@@ -34,7 +34,7 @@ services:
       context: .
     hostname: worker
     entrypoint: celery
-    command: -A celery_app.app worker --loglevel=info
+    command: -A celery.app worker --loglevel=info
     volumes:
       - ./smartschedule:/smartschedule
     links:
@@ -47,7 +47,7 @@ services:
       context: .
     hostname: flower
     entrypoint: celery
-    command: -A celery_app.app flower
+    command: -A celery.app flower
     volumes:
       - ./smartschedule:/smartschedule
     links:
