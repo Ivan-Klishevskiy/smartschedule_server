@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.core.cache import cache
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
@@ -7,6 +8,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+
 
 from data_processing.event_generation.scrapers.goout_scraper import collect_script_contents_gout
 
@@ -41,10 +43,18 @@ class MyTokenObtainPairView(TokenObtainPairView):
 @swagger_auto_schema(method='get')
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def searchLocation(request):
+def searchLocation(request):        
     query = request.query_params.get('q', '')
 
+    cache_key = f'locations_{query}'
+    cached_locations = cache.get(cache_key)
+    if cached_locations is not None:
+        return Response(cached_locations)
+    
+    
     locations = account_services.get_list_location_by_query(query)
+
+    cache.set(cache_key, locations, timeout=300)
 
     logger.info("Successfully", extra={
                 'user': request.user, 'response_code': status.HTTP_200_OK})
@@ -78,7 +88,7 @@ def registerUser(request):
     if serializer.is_valid():
         serializer.save()
         logger.info("Successfully registered", extra={
-            'user': request.user, 'response_code': status.HTTP_200_OK})
+            'user': request.user, 'response_code': status.HTTP_201_CREATED})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
         logger.info("Unregistered", extra={

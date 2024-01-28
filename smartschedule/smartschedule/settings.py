@@ -20,6 +20,11 @@ from .logging_formatters import CustomJsonFormatter
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load env var
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -265,4 +270,40 @@ LOGGING = {
 }
 
 
-CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+
+
+if os.environ.get('DJANGO_RUNNING_IN_DOCKER') == '1':
+    CELERY_BROKER_URL = 'redis://redis:6379/0'
+    
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://redis:6379/1',
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        }
+    }
+else:
+    CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+
+
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn=os.environ.get('DSN'),
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)

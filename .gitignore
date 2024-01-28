@@ -84,6 +84,7 @@ celerybeat-schedule
 
 # Environments
 .env
+.env.db
 .venv
 env/
 venv/
@@ -114,3 +115,5 @@ dmypy.json
 
 
 .devcontainer
+
+dump.rdb
