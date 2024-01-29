@@ -38,7 +38,7 @@ class SeleniumManager:
             os.environ['WDM_LOG_LEVEL'] = '0'
             LOGGER.setLevel(logging.WARNING)
             options = webdriver.FirefoxOptions()
-            # options.add_argument('--headless')  # Uncomment if you want a headless browser
+            options.add_argument('--headless')  # Uncomment if you want a headless browser
             driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
             return driver
         except Exception as e:

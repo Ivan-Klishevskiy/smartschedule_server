@@ -9,31 +9,38 @@ logger = logging.getLogger('func_log')
 
 
 def create_event_from_json(json_data):
-    event = Event()
+    try:
+        event = Event()
 
-    event.title = json_data.get('name', '')
-    event.description = json_data.get('description', '')
-    event.image_url = json_data.get('image', '')
+        event.title = json_data.get('name', '')
+        event.description = json_data.get('description', '')
+        event.image_url = json_data.get('image', '')
 
-    start_date_str = json_data.get('startDate', '')
-    end_date_str = json_data.get('endDate', '')
-    if start_date_str:
-        event.start_date = datetime.strptime(
-            start_date_str, '%a %b %d %Y %H:%M:%S GMT+0000 (Coordinated Universal Time)')
-        event.start_date = event.start_date.replace(tzinfo=pytz.UTC)
-    if end_date_str:
-        event.end_date = datetime.strptime(
-            end_date_str, '%a %b %d %Y %H:%M:%S GMT+0000 (Coordinated Universal Time)')
-        event.end_date = event.end_date.replace(tzinfo=pytz.UTC)
+        start_date_str = json_data.get('startDate', '')
+        end_date_str = json_data.get('endDate', '')
+        if start_date_str:
+            start_date_str = start_date_str.split('(')[0].strip()
+            event.start_date = datetime.strptime(
+                start_date_str, '%a %b %d %Y %H:%M:%S GMT+0000')
+            event.start_date = event.start_date.replace(tzinfo=pytz.UTC)
+        if end_date_str:
+            end_date_str = end_date_str.split('(')[0].strip()
+            event.end_date = datetime.strptime(
+                end_date_str, '%a %b %d %Y %H:%M:%S GMT+0000')
+            event.end_date = event.end_date.replace(tzinfo=pytz.UTC)
 
-    location_info = json_data.get('location', {})
-    event.location = location_info.get('name', '')
-    event.source_url = json_data.get('url', '')
+        location_info = json_data.get('location', {})
+        event.location = location_info.get('name', '')
+        event.source_url = json_data.get('url', '')
 
-    event.save()
+        event.save()
 
-    return event
+        return event
 
+    except ValueError as e:
+        logger.error("ValueError in create_event_from_json: {e}")
+    except Exception as e:
+        logger.error("Exception in create_event_from_json: {e}")
 
 def parse_script_content_to_event(script_content):
     try:
